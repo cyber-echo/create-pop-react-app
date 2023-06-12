@@ -1,10 +1,6 @@
-# Create Next App
+# Create Pop React App
 
 ## 常用命令
-
-```bash
-npm i @types/eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint eslint-config-next eslint-plugin-simple-import-sort prettier @types/prettier -D
-```
 
 ## 默认技术栈
 
@@ -16,7 +12,6 @@ npm i @types/eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser e
 - Material UI
 - [SWR](https://swr.vercel.app/zh-CN)
 - Prettier
-- eslint-plugin-simple-import-sort
 
 ## 可选技术栈
 

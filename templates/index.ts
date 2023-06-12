@@ -232,7 +232,10 @@ export const installTemplate = async ({
     devDependencies.push(
       "eslint",
       "eslint-config-next",
-      "eslint-plugin-simple-import-sort"
+      "eslint-plugin-simple-import-sort",
+      "@typescript-eslint/eslint-plugin",
+      "@typescript-eslint/parser",
+      "@types/eslint"
     );
   }
 
