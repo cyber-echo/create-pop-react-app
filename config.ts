@@ -15,7 +15,7 @@ export interface ConfigArgs {
 export const DEFAULT_CONFIG: ConfigArgs = {
   typescript: true,
   eslint: true,
-  tailwind: true,
+  tailwind: false,
   srcDir: false,
   importAlias: "@/*",
   customizeImportAlias: true,
