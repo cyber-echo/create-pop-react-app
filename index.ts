@@ -276,28 +276,6 @@ async function run(): Promise<void> {
       }
     }
 
-    if (
-      !process.argv.includes("--src-dir") &&
-      !process.argv.includes("--no-src-dir")
-    ) {
-      if (ciInfo.isCI) {
-        program.srcDir = false;
-      } else {
-        const styledSrcDir = chalk.hex("#007acc")("`src/` directory");
-        const { srcDir } = await prompts({
-          onState: onPromptState,
-          type: "toggle",
-          name: "srcDir",
-          message: `Would you like to use ${styledSrcDir} with this project?`,
-          initial: getPrefOrDefault("srcDir"),
-          active: "Yes",
-          inactive: "No",
-        });
-        program.srcDir = Boolean(srcDir);
-        preferences.srcDir = Boolean(srcDir);
-      }
-    }
-
     if (!process.argv.includes("--app") && !process.argv.includes("--no-app")) {
       if (ciInfo.isCI) {
         program.app = true;
@@ -412,6 +390,28 @@ async function run(): Promise<void> {
         });
         program.swr = Boolean(swr);
         preferences.swr = Boolean(swr);
+      }
+    }
+
+    if (
+      !process.argv.includes("--src-dir") &&
+      !process.argv.includes("--no-src-dir")
+    ) {
+      if (ciInfo.isCI) {
+        program.srcDir = false;
+      } else {
+        const styledSrcDir = chalk.hex("#007acc")("`src/` directory");
+        const { srcDir } = await prompts({
+          onState: onPromptState,
+          type: "toggle",
+          name: "srcDir",
+          message: `Would you like to use ${styledSrcDir} with this project?`,
+          initial: getPrefOrDefault("srcDir"),
+          active: "Yes",
+          inactive: "No",
+        });
+        program.srcDir = Boolean(srcDir);
+        preferences.srcDir = Boolean(srcDir);
       }
     }
 
