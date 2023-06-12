@@ -277,50 +277,6 @@ async function run(): Promise<void> {
     }
 
     if (
-      !process.argv.includes("--eslint") &&
-      !process.argv.includes("--no-eslint")
-    ) {
-      if (ciInfo.isCI) {
-        program.eslint = true;
-      } else {
-        const styledEslint = chalk.hex("#007acc")("ESLint");
-        const { eslint } = await prompts({
-          onState: onPromptState,
-          type: "toggle",
-          name: "eslint",
-          message: `Would you like to use ${styledEslint} with this project?`,
-          initial: getPrefOrDefault("eslint"),
-          active: "Yes",
-          inactive: "No",
-        });
-        program.eslint = Boolean(eslint);
-        preferences.eslint = Boolean(eslint);
-      }
-    }
-
-    if (
-      !process.argv.includes("--tailwind") &&
-      !process.argv.includes("--no-tailwind")
-    ) {
-      if (ciInfo.isCI) {
-        program.tailwind = false;
-      } else {
-        const tw = chalk.hex("#007acc")("Tailwind CSS");
-        const { tailwind } = await prompts({
-          onState: onPromptState,
-          type: "toggle",
-          name: "tailwind",
-          message: `Would you like to use ${tw} with this project?`,
-          initial: getPrefOrDefault("tailwind"),
-          active: "Yes",
-          inactive: "No",
-        });
-        program.tailwind = Boolean(tailwind);
-        preferences.tailwind = Boolean(tailwind);
-      }
-    }
-
-    if (
       !process.argv.includes("--src-dir") &&
       !process.argv.includes("--no-src-dir")
     ) {
@@ -460,27 +416,32 @@ async function run(): Promise<void> {
     }
 
     if (
-      !process.argv.includes("--prettier") &&
-      !process.argv.includes("--no-prettier")
+      !process.argv.includes("--tailwind") &&
+      !process.argv.includes("--no-tailwind")
     ) {
       if (ciInfo.isCI) {
-        program.prettier = false;
+        program.tailwind = false;
       } else {
-        const text = chalk.hex("#007acc")("Prettier");
-        const { prettier } = await prompts({
+        const tw = chalk.hex("#007acc")("Tailwind CSS");
+        const { tailwind } = await prompts({
           onState: onPromptState,
           type: "toggle",
-          name: "prettier",
-          message: `Would you like to use ${text} with this project?`,
-          initial: getPrefOrDefault("prettier"),
+          name: "tailwind",
+          message: `Would you like to use ${tw} with this project?`,
+          initial: getPrefOrDefault("tailwind"),
           active: "Yes",
           inactive: "No",
         });
-        program.prettier = Boolean(prettier);
-        preferences.prettier = Boolean(prettier);
+        program.tailwind = Boolean(tailwind);
+        preferences.tailwind = Boolean(tailwind);
       }
     }
   }
+
+  program.eslint = true;
+  preferences.eslint = true;
+  program.prettier = true;
+  preferences.prettier = true;
 
   try {
     await createApp({
@@ -549,7 +510,9 @@ async function notifyUpdate(): Promise<void> {
           : "npm i -g create-pop-react-app";
 
       console.log(
-        chalk.yellow.bold("A new version of `create-pop-react-app` is available!") +
+        chalk.yellow.bold(
+          "A new version of `create-pop-react-app` is available!"
+        ) +
           "\n" +
           "You can update by running: " +
           chalk.cyan(updateMessage) +
