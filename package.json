@@ -9,7 +9,7 @@
   "description": "Create Next.js-powered React apps with one command",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vercel/next.js"
+    "url": "https://github.com/cyber-echo/create-pop-react-app"
   },
   "author": "cyber-echo",
   "license": "MIT",
