@@ -258,45 +258,6 @@ async function run(): Promise<void> {
     }
 
     if (
-      typeof program.importAlias !== "string" ||
-      !program.importAlias.length
-    ) {
-      if (ciInfo.isCI) {
-        program.importAlias = "@/*";
-      } else {
-        const styledImportAlias = chalk.hex("#007acc")("import alias");
-
-        const { customizeImportAlias } = await prompts({
-          onState: onPromptState,
-          type: "toggle",
-          name: "customizeImportAlias",
-          message: `Would you like to customize the default ${styledImportAlias}?`,
-          initial: getPrefOrDefault("customizeImportAlias"),
-          active: "Yes",
-          inactive: "No",
-        });
-
-        if (!customizeImportAlias) {
-          program.importAlias = "@/*";
-        } else {
-          const { importAlias } = await prompts({
-            onState: onPromptState,
-            type: "text",
-            name: "importAlias",
-            message: `What ${styledImportAlias} would you like configured?`,
-            initial: getPrefOrDefault("importAlias"),
-            validate: (value) =>
-              /.+\/\*/.test(value)
-                ? true
-                : "Import alias must follow the pattern <prefix>/*",
-          });
-          program.importAlias = importAlias;
-          preferences.importAlias = importAlias;
-        }
-      }
-    }
-
-    if (
       !process.argv.includes("--sass") &&
       !process.argv.includes("--no-sass")
     ) {
@@ -408,6 +369,8 @@ async function run(): Promise<void> {
   preferences.eslint = true;
   program.prettier = true;
   preferences.prettier = true;
+  program.importAlias = "@/*";
+  preferences.importAlias = "@/*";
 
   try {
     await createApp({

@@ -4,7 +4,6 @@ export interface ConfigArgs {
   tailwind: boolean;
   srcDir: boolean;
   importAlias: string;
-  customizeImportAlias: boolean;
   sass: boolean;
   mui: boolean;
   swr: boolean;
@@ -18,7 +17,6 @@ export const DEFAULT_CONFIG: ConfigArgs = {
   tailwind: false,
   srcDir: false,
   importAlias: "@/*",
-  customizeImportAlias: true,
   sass: true,
   mui: true,
   swr: true,
