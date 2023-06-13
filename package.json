@@ -21,7 +21,7 @@
   ],
   "scripts": {
     "dev": "ncc build ./index.ts -w -o dist/",
-    "prerelease": "node ./rm.mjs dist",
+    "prerelease": "node ./scripts/rm.mjs dist",
     "release": "ncc build ./index.ts -o ./dist/ --minify --no-cache --no-source-map-register",
     "build": "npm release",
     "prepublishOnly": "zx ./scripts/prepublish.mjs",

@@ -16,9 +16,9 @@ export const DEFAULT_CONFIG: ConfigArgs = {
   eslint: true,
   tailwind: false,
   srcDir: false,
-  importAlias: "@/*",
+  importAlias: '@/*',
   sass: true,
   mui: true,
   swr: true,
-  prettier: true,
+  prettier: true
 };

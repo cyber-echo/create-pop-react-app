@@ -1,7 +1,7 @@
-import retry from "async-retry";
-import chalk from "chalk";
-import fs from "fs";
-import path from "path";
+import retry from 'async-retry';
+import chalk from 'chalk';
+import fs from 'fs';
+import path from 'path';
 
 import {
   downloadAndExtractExample,
@@ -9,21 +9,21 @@ import {
   existsInRepo,
   getRepoInfo,
   hasRepo,
-  type RepoInfo,
-} from "./helpers/examples";
-import type { PackageManager } from "./helpers/get-pkg-manager";
-import { tryGitInit } from "./helpers/git";
-import { install } from "./helpers/install";
-import { isFolderEmpty } from "./helpers/is-folder-empty";
-import { getOnline } from "./helpers/is-online";
-import { isWriteable } from "./helpers/is-writeable";
-import { makeDir } from "./helpers/make-dir";
+  type RepoInfo
+} from './helpers/examples';
+import type { PackageManager } from './helpers/get-pkg-manager';
+import { tryGitInit } from './helpers/git';
+import { install } from './helpers/install';
+import { isFolderEmpty } from './helpers/is-folder-empty';
+import { getOnline } from './helpers/is-online';
+import { isWriteable } from './helpers/is-writeable';
+import { makeDir } from './helpers/make-dir';
 import {
   getTemplateFile,
   installTemplate,
   type TemplateMode,
-  type TemplateType,
-} from "./templates";
+  type TemplateType
+} from './templates';
 
 export class DownloadError extends Error {}
 
@@ -41,7 +41,7 @@ export async function createApp({
   sass,
   mui,
   swr,
-  prettier,
+  prettier
 }: {
   appPath: string;
   packageManager: PackageManager;
@@ -59,14 +59,14 @@ export async function createApp({
   prettier: boolean;
 }): Promise<void> {
   let repoInfo: RepoInfo | undefined;
-  const mode: TemplateMode = typescript ? "ts" : "js";
+  const mode: TemplateMode = typescript ? 'ts' : 'js';
   const template: TemplateType = appRouter
     ? tailwind
-      ? "app-tw"
-      : "app"
+      ? 'app-tw'
+      : 'app'
     : tailwind
-    ? "default-tw"
-    : "default";
+    ? 'default-tw'
+    : 'default';
 
   if (example) {
     let repoUrl: URL | undefined;
@@ -74,18 +74,18 @@ export async function createApp({
     try {
       repoUrl = new URL(example);
     } catch (error: any) {
-      if (error.code !== "ERR_INVALID_URL") {
+      if (error.code !== 'ERR_INVALID_URL') {
         console.error(error);
         process.exit(1);
       }
     }
 
     if (repoUrl) {
-      if (repoUrl.origin !== "https://github.com") {
+      if (repoUrl.origin !== 'https://github.com') {
         console.error(
           `Invalid URL: ${chalk.red(
-            `"${example}"`,
-          )}. Only GitHub repositories are supported. Please use a GitHub URL and try again.`,
+            `"${example}"`
+          )}. Only GitHub repositories are supported. Please use a GitHub URL and try again.`
         );
         process.exit(1);
       }
@@ -95,8 +95,8 @@ export async function createApp({
       if (!repoInfo) {
         console.error(
           `Found invalid GitHub URL: ${chalk.red(
-            `"${example}"`,
-          )}. Please fix the URL and try again.`,
+            `"${example}"`
+          )}. Please fix the URL and try again.`
         );
         process.exit(1);
       }
@@ -106,23 +106,23 @@ export async function createApp({
       if (!found) {
         console.error(
           `Could not locate the repository for ${chalk.red(
-            `"${example}"`,
-          )}. Please check that the repository exists and try again.`,
+            `"${example}"`
+          )}. Please check that the repository exists and try again.`
         );
         process.exit(1);
       }
-    } else if (example !== "__internal-testing-retry") {
+    } else if (example !== '__internal-testing-retry') {
       const found = await existsInRepo(example);
 
       if (!found) {
         console.error(
           `Could not locate an example named ${chalk.red(
-            `"${example}"`,
+            `"${example}"`
           )}. It could be due to the following:\n`,
           `1. Your spelling of example ${chalk.red(
-            `"${example}"`,
+            `"${example}"`
           )} might be incorrect.\n`,
-          `2. You might not be connected to the internet or you are behind a proxy.`,
+          `2. You might not be connected to the internet or you are behind a proxy.`
         );
         process.exit(1);
       }
@@ -133,10 +133,10 @@ export async function createApp({
 
   if (!(await isWriteable(path.dirname(root)))) {
     console.error(
-      "The application path is not writable, please check folder permissions and try again.",
+      'The application path is not writable, please check folder permissions and try again.'
     );
     console.error(
-      "It is likely you do not have write permissions for this folder.",
+      'It is likely you do not have write permissions for this folder.'
     );
     process.exit(1);
   }
@@ -148,7 +148,7 @@ export async function createApp({
     process.exit(1);
   }
 
-  const useYarn = packageManager === "yarn";
+  const useYarn = packageManager === 'yarn';
   const isOnline = !useYarn || (await getOnline());
   const originalDirectory = process.cwd();
 
@@ -157,7 +157,7 @@ export async function createApp({
 
   process.chdir(root);
 
-  const packageJsonPath = path.join(root, "package.json");
+  const packageJsonPath = path.join(root, 'package.json');
   let hasPackageJson = false;
 
   if (example) {
@@ -169,16 +169,16 @@ export async function createApp({
         const repoInfo2 = repoInfo;
         console.log(
           `Downloading files from repo ${chalk.cyan(
-            example,
-          )}. This might take a moment.`,
+            example
+          )}. This might take a moment.`
         );
         console.log();
         await retry(() => downloadAndExtractRepo(root, repoInfo2));
       } else {
         console.log(
           `Downloading files for example ${chalk.cyan(
-            example,
-          )}. This might take a moment.`,
+            example
+          )}. This might take a moment.`
         );
         console.log();
         await retry(() => downloadAndExtractExample(root, example));
@@ -186,36 +186,36 @@ export async function createApp({
     } catch (reason) {
       function isErrorLike(err: unknown): err is { message: string } {
         return (
-          typeof err === "object" &&
+          typeof err === 'object' &&
           err !== null &&
-          typeof (err as { message?: unknown }).message === "string"
+          typeof (err as { message?: unknown }).message === 'string'
         );
       }
       throw new DownloadError(
-        isErrorLike(reason) ? reason.message : reason + "",
+        isErrorLike(reason) ? reason.message : reason + ''
       );
     }
     // Copy `.gitignore` if the application did not provide one
-    const ignorePath = path.join(root, ".gitignore");
+    const ignorePath = path.join(root, '.gitignore');
     if (!fs.existsSync(ignorePath)) {
       fs.copyFileSync(
-        getTemplateFile({ template, mode, file: "gitignore" }),
-        ignorePath,
+        getTemplateFile({ template, mode, file: 'gitignore' }),
+        ignorePath
       );
     }
 
     // Copy `next-env.d.ts` to any example that is typescript
-    const tsconfigPath = path.join(root, "tsconfig.json");
+    const tsconfigPath = path.join(root, 'tsconfig.json');
     if (fs.existsSync(tsconfigPath)) {
       fs.copyFileSync(
-        getTemplateFile({ template, mode: "ts", file: "next-env.d.ts" }),
-        path.join(root, "next-env.d.ts"),
+        getTemplateFile({ template, mode: 'ts', file: 'next-env.d.ts' }),
+        path.join(root, 'next-env.d.ts')
       );
     }
 
     hasPackageJson = fs.existsSync(packageJsonPath);
     if (hasPackageJson) {
-      console.log("Installing packages. This might take a couple of minutes.");
+      console.log('Installing packages. This might take a couple of minutes.');
       console.log();
 
       await install(root, null, { packageManager, isOnline });
@@ -240,12 +240,12 @@ export async function createApp({
       sass,
       mui,
       swr,
-      prettier,
+      prettier
     });
   }
 
   if (tryGitInit(root)) {
-    console.log("Initialized a git repository.");
+    console.log('Initialized a git repository.');
     console.log();
   }
 
@@ -256,27 +256,27 @@ export async function createApp({
     cdpath = appPath;
   }
 
-  console.log(`${chalk.green("Success!")} Created ${appName} at ${appPath}`);
+  console.log(`${chalk.green('Success!')} Created ${appName} at ${appPath}`);
 
   if (hasPackageJson) {
-    console.log("Inside that directory, you can run several commands:");
+    console.log('Inside that directory, you can run several commands:');
     console.log();
-    console.log(chalk.cyan(`  ${packageManager} ${useYarn ? "" : "run "}dev`));
-    console.log("    Starts the development server.");
+    console.log(chalk.cyan(`  ${packageManager} ${useYarn ? '' : 'run '}dev`));
+    console.log('    Starts the development server.');
     console.log();
     console.log(
-      chalk.cyan(`  ${packageManager} ${useYarn ? "" : "run "}build`),
+      chalk.cyan(`  ${packageManager} ${useYarn ? '' : 'run '}build`)
     );
-    console.log("    Builds the app for production.");
+    console.log('    Builds the app for production.');
     console.log();
     console.log(chalk.cyan(`  ${packageManager} start`));
-    console.log("    Runs the built app in production mode.");
+    console.log('    Runs the built app in production mode.');
     console.log();
-    console.log("We suggest that you begin by typing:");
+    console.log('We suggest that you begin by typing:');
     console.log();
-    console.log(chalk.cyan("  cd"), cdpath);
+    console.log(chalk.cyan('  cd'), cdpath);
     console.log(
-      `  ${chalk.cyan(`${packageManager} ${useYarn ? "" : "run "}dev`)}`,
+      `  ${chalk.cyan(`${packageManager} ${useYarn ? '' : 'run '}dev`)}`
     );
   }
   console.log();
