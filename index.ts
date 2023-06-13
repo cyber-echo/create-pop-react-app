@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-/* eslint-disable import/no-extraneous-dependencies */
 import chalk from "chalk";
 import ciInfo from "ci-info";
 import Commander from "commander";
