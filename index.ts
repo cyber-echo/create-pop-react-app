@@ -1,21 +1,22 @@
 #!/usr/bin/env node
 /* eslint-disable import/no-extraneous-dependencies */
 import chalk from "chalk";
+import ciInfo from "ci-info";
 import Commander from "commander";
 import Conf from "conf";
+import fs from "fs";
 import path from "path";
 import prompts from "prompts";
 import checkForUpdate from "update-check";
+
+import { DEFAULT_CONFIG } from "./config";
 import { createApp, DownloadError } from "./create-app";
 import { getPkgManager } from "./helpers/get-pkg-manager";
+import { isFolderEmpty } from "./helpers/is-folder-empty";
 import { validateNpmName } from "./helpers/validate-pkg";
 import packageJson from "./package.json";
-import ciInfo from "ci-info";
-import { isFolderEmpty } from "./helpers/is-folder-empty";
-import fs from "fs";
-import { DEFAULT_CONFIG } from "./config";
 
-let projectPath: string = "";
+let projectPath = "";
 
 const handleSigTerm = () => process.exit(0);
 
@@ -44,70 +45,70 @@ const program = new Commander.Command(packageJson.name)
     `
 
   Initialize as a TypeScript project. (default)
-`
+`,
   )
   .option(
     "--js, --javascript",
     `
 
   Initialize as a JavaScript project.
-`
+`,
   )
   .option(
     "--tailwind",
     `
 
   Initialize with Tailwind CSS config. (default)
-`
+`,
   )
   .option(
     "--eslint",
     `
 
   Initialize with eslint config.
-`
+`,
   )
   .option(
     "--app",
     `
 
   Initialize as an App Router project.
-`
+`,
   )
   .option(
     "--src-dir",
     `
 
   Initialize inside a \`src/\` directory.
-`
+`,
   )
   .option(
     "--import-alias <alias-to-configure>",
     `
 
   Specify import alias to use (default "@/*").
-`
+`,
   )
   .option(
     "--use-npm",
     `
 
   Explicitly tell the CLI to bootstrap the application using npm
-`
+`,
   )
   .option(
     "--use-pnpm",
     `
 
   Explicitly tell the CLI to bootstrap the application using pnpm
-`
+`,
   )
   .option(
     "--use-yarn",
     `
 
   Explicitly tell the CLI to bootstrap the application using Yarn
-`
+`,
   )
   .option(
     "-e, --example [name]|[github-url]",
@@ -116,7 +117,7 @@ const program = new Commander.Command(packageJson.name)
   An example to bootstrap the app with. You can use an example name
   from the official Next.js repo or a GitHub URL. The URL can use
   any branch and/or subdirectory
-`
+`,
   )
   .option(
     "--example-path <path-to-example>",
@@ -126,14 +127,14 @@ const program = new Commander.Command(packageJson.name)
   a slash (e.g. bug/fix-1) and the path to the example (e.g. foo/bar).
   In this case, you must specify the path to the example separately:
   --example-path foo/bar
-`
+`,
   )
   .option(
     "--reset-preferences",
     `
 
   Explicitly tell the CLI to reset any stored preferences
-`
+`,
   )
   .allowUnknownOption()
   .parse(process.argv);
@@ -184,11 +185,11 @@ async function run(): Promise<void> {
     console.log(
       "\nPlease specify the project directory:\n" +
         `  ${chalk.cyan(program.name())} ${chalk.green(
-          "<project-directory>"
+          "<project-directory>",
         )}\n` +
         "For example:\n" +
         `  ${chalk.cyan(program.name())} ${chalk.green("my-next-app")}\n\n` +
-        `Run ${chalk.cyan(`${program.name()} --help`)} to see all options.`
+        `Run ${chalk.cyan(`${program.name()} --help`)} to see all options.`,
     );
     process.exit(1);
   }
@@ -200,8 +201,8 @@ async function run(): Promise<void> {
   if (!valid) {
     console.error(
       `Could not create a project called ${chalk.red(
-        `"${projectName}"`
-      )} because of npm naming restrictions:`
+        `"${projectName}"`,
+      )} because of npm naming restrictions:`,
     );
 
     problems!.forEach((p) => console.error(`    ${chalk.red.bold("*")} ${p}`));
@@ -210,7 +211,7 @@ async function run(): Promise<void> {
 
   if (program.example === true) {
     console.error(
-      "Please provide an example name or url, otherwise remove the example option."
+      "Please provide an example name or url, otherwise remove the example option.",
     );
     process.exit(1);
   }
@@ -265,7 +266,7 @@ async function run(): Promise<void> {
               console.error("Exiting.");
               process.exit(1);
             },
-          }
+          },
         );
         /**
          * Depending on the prompt response, set the appropriate program flags.
@@ -511,12 +512,12 @@ async function notifyUpdate(): Promise<void> {
 
       console.log(
         chalk.yellow.bold(
-          "A new version of `create-pop-react-app` is available!"
+          "A new version of `create-pop-react-app` is available!",
         ) +
           "\n" +
           "You can update by running: " +
           chalk.cyan(updateMessage) +
-          "\n"
+          "\n",
       );
     }
     process.exit();
@@ -535,7 +536,7 @@ run()
     } else {
       console.log(
         chalk.red("Unexpected error. Please report it as a bug:") + "\n",
-        reason
+        reason,
       );
     }
     console.log();

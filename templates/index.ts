@@ -80,16 +80,16 @@ export const installTemplate = async ({
 
   const tsconfigFile = path.join(
     root,
-    mode === "js" ? "jsconfig.json" : "tsconfig.json"
+    mode === "js" ? "jsconfig.json" : "tsconfig.json",
   );
   await fs.promises.writeFile(
     tsconfigFile,
     (await fs.promises.readFile(tsconfigFile, "utf8"))
       .replace(
         `"@/*": ["./*"]`,
-        srcDir ? `"@/*": ["./src/*"]` : `"@/*": ["./*"]`
+        srcDir ? `"@/*": ["./src/*"]` : `"@/*": ["./*"]`,
       )
-      .replace(`"@/*":`, `"${importAlias}":`)
+      .replace(`"@/*":`, `"${importAlias}":`),
   );
 
   // update import alias in any files if not using the default
@@ -107,11 +107,11 @@ export const installTemplate = async ({
             filePath,
             (
               await fs.promises.readFile(filePath, "utf8")
-            ).replace(`@/`, `${importAlias.replace(/\*/g, "")}`)
+            ).replace(`@/`, `${importAlias.replace(/\*/g, "")}`),
           );
         }
         await writeSema.release();
-      })
+      }),
     );
   }
 
@@ -126,7 +126,7 @@ export const installTemplate = async ({
               throw err;
             }
           });
-      })
+      }),
     );
 
     const isAppTemplate = template.startsWith("app");
@@ -135,7 +135,7 @@ export const installTemplate = async ({
     const indexPageFile = path.join(
       "src",
       isAppTemplate ? "app" : "pages",
-      `${isAppTemplate ? "page" : "index"}.${mode === "ts" ? "tsx" : "js"}`
+      `${isAppTemplate ? "page" : "index"}.${mode === "ts" ? "tsx" : "js"}`,
     );
 
     await fs.promises.writeFile(
@@ -144,8 +144,8 @@ export const installTemplate = async ({
         await fs.promises.readFile(indexPageFile, "utf8")
       ).replace(
         isAppTemplate ? "app/page" : "pages/index",
-        isAppTemplate ? "src/app/page" : "src/pages/index"
-      )
+        isAppTemplate ? "src/app/page" : "src/pages/index",
+      ),
     );
 
     if (tailwind) {
@@ -156,8 +156,8 @@ export const installTemplate = async ({
           await fs.promises.readFile(tailwindConfigFile, "utf8")
         ).replace(
           /\.\/(\w+)\/\*\*\/\*\.\{js,ts,jsx,tsx,mdx\}/g,
-          "./src/$1/**/*.{js,ts,jsx,tsx,mdx}"
-        )
+          "./src/$1/**/*.{js,ts,jsx,tsx,mdx}",
+        ),
       );
     }
   }
@@ -182,7 +182,7 @@ export const installTemplate = async ({
    */
   fs.writeFileSync(
     path.join(root, "package.json"),
-    JSON.stringify(packageJson, null, 2) + os.EOL
+    JSON.stringify(packageJson, null, 2) + os.EOL,
   );
 
   /**
@@ -213,7 +213,7 @@ export const installTemplate = async ({
       "typescript",
       "@types/react",
       "@types/node",
-      "@types/react-dom"
+      "@types/react-dom",
     );
   }
 
@@ -235,7 +235,7 @@ export const installTemplate = async ({
       "eslint-plugin-simple-import-sort",
       "@typescript-eslint/eslint-plugin",
       "@typescript-eslint/parser",
-      "@types/eslint"
+      "@types/eslint",
     );
   }
 
