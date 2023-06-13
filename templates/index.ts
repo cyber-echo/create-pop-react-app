@@ -1,15 +1,14 @@
-import { install } from "../helpers/install";
-import { makeDir } from "../helpers/make-dir";
-
+import { Sema } from "async-sema";
+import chalk from "chalk";
 import cpy from "cpy";
+import fs from "fs";
 import globOrig from "glob";
 import os from "os";
-import fs from "fs";
 import path from "path";
-import chalk from "chalk";
 import util from "util";
-import { Sema } from "async-sema";
 
+import { install } from "../helpers/install";
+import { makeDir } from "../helpers/make-dir";
 import { GetTemplateFileArgs, InstallTemplateArgs } from "./types";
 
 const glob = util.promisify(globOrig);
