@@ -24,6 +24,7 @@
     "prerelease": "node ./rm.mjs dist",
     "release": "ncc build ./index.ts -o ./dist/ --minify --no-cache --no-source-map-register",
     "build": "npm release",
+    "prepublishOnly": "zx ./scripts/prepublish.mjs",
     "lint-fix": "npm prettier -w --plugin prettier-plugin-tailwindcss 'templates/*-tw/{ts,js}/{app,pages}/**/*.{js,ts,tsx}'"
   },
   "devDependencies": {
@@ -58,7 +59,8 @@
     "prompts": "2.1.0",
     "tar": "6.1.15",
     "update-check": "1.5.4",
-    "validate-npm-package-name": "3.0.0"
+    "validate-npm-package-name": "3.0.0",
+    "zx": "^7.2.2"
   },
   "engines": {
     "node": ">=16.8.0"
