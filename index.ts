@@ -239,43 +239,6 @@ async function run(): Promise<void> {
     const getPrefOrDefault = (field: string) =>
       preferences[field] ?? DEFAULT_CONFIG[field];
 
-    if (!program.typescript && !program.javascript) {
-      if (ciInfo.isCI) {
-        // default to JavaScript in CI as we can't prompt to
-        // prevent breaking setup flows
-        program.typescript = false;
-        program.javascript = true;
-      } else {
-        const styledTypeScript = chalk.hex("#007acc")("TypeScript");
-        const { typescript } = await prompts(
-          {
-            type: "toggle",
-            name: "typescript",
-            message: `Would you like to use ${styledTypeScript} with this project?`,
-            initial: getPrefOrDefault("typescript"),
-            active: "Yes",
-            inactive: "No",
-          },
-          {
-            /**
-             * User inputs Ctrl+C or Ctrl+D to exit the prompt. We should close the
-             * process and not write to the file system.
-             */
-            onCancel: () => {
-              console.error("Exiting.");
-              process.exit(1);
-            },
-          },
-        );
-        /**
-         * Depending on the prompt response, set the appropriate program flags.
-         */
-        program.typescript = Boolean(typescript);
-        program.javascript = !Boolean(typescript);
-        preferences.typescript = Boolean(typescript);
-      }
-    }
-
     if (!process.argv.includes("--app") && !process.argv.includes("--no-app")) {
       if (ciInfo.isCI) {
         program.app = true;
@@ -438,6 +401,9 @@ async function run(): Promise<void> {
     }
   }
 
+  program.typescript = true;
+  program.javascript = false;
+  preferences.typescript = true;
   program.eslint = true;
   preferences.eslint = true;
   program.prettier = true;
