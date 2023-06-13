@@ -3,8 +3,6 @@ import 'zx/globals';
 
 await $`npm config set registry https://registry.npmjs.org`;
 await $`npm version patch`;
-await $`npm version patch`;
-await $`npm run release`;
 
 const { version } = JSON.parse(await fs.readFile('./package.json'));
 
