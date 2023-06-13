@@ -12,6 +12,7 @@
 - Material UI
 - [SWR](https://swr.vercel.app/zh-CN)
 - Prettier
+- redux-toolkit
 
 ## 可选技术栈
 
