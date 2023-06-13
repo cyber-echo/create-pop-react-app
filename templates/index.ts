@@ -232,6 +232,7 @@ export const installTemplate = async ({
       "eslint",
       "eslint-config-next",
       "eslint-plugin-simple-import-sort",
+      "eslint-plugin-react-hooks",
       "@typescript-eslint/eslint-plugin",
       "@typescript-eslint/parser",
       "@types/eslint",
