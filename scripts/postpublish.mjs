@@ -1,4 +1,8 @@
 #!/usr/bin/env zx
 import 'zx/globals';
 
-await $`npm config set registry https://registry.npmmirror.com`;
+within(async () => {
+  setTimeout(async () => {
+    await $`npm config set registry https://registry.npmmirror.com`;
+  }, 1000);
+});
