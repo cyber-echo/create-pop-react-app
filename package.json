@@ -25,6 +25,7 @@
     "release": "ncc build ./index.ts -o ./dist/ --minify --no-cache --no-source-map-register",
     "build": "npm release",
     "prepublishOnly": "zx ./scripts/prepublish.mjs",
+    "postpublish": "zx ./scripts/postpublish.mjs",
     "lint-fix": "npm prettier -w --plugin prettier-plugin-tailwindcss 'templates/*-tw/{ts,js}/{app,pages}/**/*.{js,ts,tsx}'"
   },
   "devDependencies": {
