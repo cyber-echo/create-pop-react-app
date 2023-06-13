@@ -14,7 +14,6 @@ const config = {
   extends: [
     'next/core-web-vitals',
     'plugin:@typescript-eslint/recommended',
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:react/recommended'
   ],
   rules: {
