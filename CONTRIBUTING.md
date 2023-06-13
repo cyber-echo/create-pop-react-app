@@ -10,7 +10,6 @@ nvm use v18.16.0
 # 安装依赖
 npm install --registry=https://registry.npmmirror.com
 
-npm version patch
-
+# 发布
 npm publish
 ```
